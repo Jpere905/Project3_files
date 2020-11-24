@@ -1,6 +1,7 @@
 from project3_files import mongo
 from flask_wtf import FlaskForm
 from wtforms import StringField, DateField, SelectField, DecimalField, SubmitField
+from wtforms.validators import DataRequired
 
 
 
@@ -8,10 +9,17 @@ from wtforms import StringField, DateField, SelectField, DecimalField, SubmitFie
 class Expenses(FlaskForm):
     # create the form for the following fields
     # StringField : description
+    description = StringField("Description", validators=[DataRequired()])
     # SelectField : category
+    distinct_cat = mongo.db.expenses.distinct("category")
+    category = SelectField("Category",choices=distinct_cat, validators=[DataRequired()])
     # DecimalField : cost
+    cost = DecimalField("Cost", validators=[DataRequired()])
     # DateField : date
-    description = StringField
+    date = DateField("Date of purchase",
+                     format='%m-%d-%Y',
+                     validators=[DataRequired()],
+                     render_kw={"placeholder": "mm-dd-yyyy"})
 
 # when given a list of unique categories, this function will step through each item x and find every occurance of x in
 # the collection and sum their values.
@@ -33,7 +41,7 @@ def get_category_expenses(distinct_cat):
         total = 0
         #print("item in unique_cat")
         for item in unique_cat:
-            total += item["cost"]
+            total += float(item["cost"])
             # print(item)
 
         #print("=====================================")

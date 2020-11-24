@@ -212,6 +212,7 @@ textarea {
   /* 2 */
   margin: 0;
   /* 3 */
+  width: 50%;
 }
 /**
  * Address `overflow` set to `hidden` in IE 8/9/10/11.
