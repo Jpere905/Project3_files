@@ -11,8 +11,9 @@ class Expenses(FlaskForm):
     # StringField : description
     description = StringField("Description", validators=[DataRequired()])
     # SelectField : category
-    distinct_cat = mongo.db.expenses.distinct("category")
-    category = SelectField("Category",choices=distinct_cat, validators=[DataRequired()])
+    category = SelectField("Category", validators=[DataRequired()])
+    # StringField : new category
+    new_category = StringField("New Category")
     # DecimalField : cost
     cost = DecimalField("Cost", validators=[DataRequired()])
     # DateField : date

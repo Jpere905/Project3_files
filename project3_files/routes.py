@@ -40,15 +40,25 @@ def addExpenses():
 
 
     expense_form = forms.Expenses(request.form)
+
+    # create the choices list after form instantiation to have the most current list of categories
+    # found in DB
+    expense_form.category.choices = mongo.db.expenses.distinct("category")
     # include form based off the Expenses class above
     if request.method == "POST":
-        # insert the doc containing user data into database
-        # it should be formatted as a dictionary
         # get our user provided data
         description = request.form["description"]
-        category    = request.form["category"]
+
         cost        = request.form["cost"]
         date        = request.form["date"]
+
+        # if user enters a new category then use that, if not, use the pre-existing category
+        if request.form["new_category"]:
+            print("new category entered:", request.form["new_category"])
+            category = request.form["new_category"]
+        else:
+            print("no new category entered")
+            category    = request.form["category"]
 
         # insert into our db
         mongo.db.expenses.insert({"description" : description,

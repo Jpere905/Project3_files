@@ -12,6 +12,7 @@
             {{ form.csrf_token() }}
             <p>Description: {{ form.description }}</p>
             <p>Category: {{ form.category }}</p>
+            <p>(or enter new category) {{ form.new_category }}</p>
             <p>Cost: {{ form.cost }}</p>
             <p>Date Purchased: {{ form.date }}</p>
         <input value="Submit" class="button-8 w-button" type="submit">
